@@ -50,7 +50,6 @@ let getPlantType (plantChar: char) =
         | _ -> None
 
 let plantStringToList (plantString: string) =
-    printfn $"Plant string: {plantString}"
     [
         getPlantType(plantString[0]).Value
         getPlantType(plantString[1]).Value
