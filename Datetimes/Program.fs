@@ -21,3 +21,6 @@ printfn $"{scheduleResult}"
 printfn "%b" (hasPassed (DateTime(1999, 12, 31, 9, 0, 0)))
 printfn "%b" (isAfternoonAppointment (DateTime(2019, 03, 29, 15, 0, 0)))
 printfn "%s" (description (DateTime(2019, 03, 29, 15, 0, 0)))
+
+let add (beginDate: DateTime) =
+    beginDate.AddSeconds(10**9)
