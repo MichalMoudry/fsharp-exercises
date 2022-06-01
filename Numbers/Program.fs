@@ -51,3 +51,46 @@ printfn "Create: %s" (create 56 15)
 printfn "Add: %s" (add 3 "10:00")
 printfn "Add: %s" (add 157 "10:00")
 printfn "Display: %s" (display "16:151")
+
+let steps (number: int): int option =
+    if number > 0 then
+        let mutable num = number
+        let mutable res = 0
+        while num > 1 do
+            res <- res + 1
+            if num % 2 = 0 then
+                num <- num / 2
+            else
+                num <- 3 * num + 1
+        Some(res)
+    else
+        None
+
+printfn "CollatzConjecture: %i" ((steps 1).Value)
+
+type Classification = Perfect | Abundant | Deficient
+
+let classify n : Classification option =
+    if n > 0 then
+        let sum =
+            { 1..(n - 1) }
+                |> Seq.filter (fun x -> n % x = 0)
+                |> Seq.sum
+        match sum with
+            | res when res = n -> Some(Perfect)
+            | res when res > n -> Some(Abundant)
+            | _ -> Some(Deficient)
+    else
+        None
+
+printfn $"{classify 6}"
+printfn $"{classify 12}"
+printfn $"{classify 24}"
+printfn $"{classify 8}"
+
+let reply (guess: int): string =
+    match guess with
+        | 42 -> "Correct"
+        | i when i = 41 || i = 43 -> "So close"
+        | i when i < 41 -> "Too low"
+        | _ -> "Too high"
