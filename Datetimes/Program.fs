@@ -24,3 +24,39 @@ printfn "%s" (description (DateTime(2019, 03, 29, 15, 0, 0)))
 
 let add (beginDate: DateTime) =
     beginDate.AddSeconds(10**9)
+
+open System.Globalization
+
+type Week = First | Second | Third | Fourth | Last | Teenth
+
+let getWeekNumber (week: Week) =
+    match week with
+        | First -> Some(0)
+        | Second -> Some(1)
+        | Third -> Some(2)
+        | Fourth -> Some(3)
+        | Last -> Some(4)
+        | _ -> None
+
+let meetup year month week dayOfWeek: DateTime =
+    let weekNumber = getWeekNumber week
+    let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
+    let mutable calendar = CultureInfo.InvariantCulture.Calendar
+    let dayNumber = int(dayOfWeek)
+    if weekNumber.IsSome then
+        printfn $"{int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)} {dayNumber}"
+        let mutable diff = int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)
+        let mutable dayDiff = 0
+        while diff <> dayNumber do
+            if diff > dayNumber then
+                diff <- diff - 1
+                dayDiff <- dayDiff - 1
+            else
+                diff <- diff + 1
+                dayDiff <- dayDiff + 1
+        printfn $"{diff} {dayNumber} {dayDiff}"
+        calendar.AddWeeks(date, weekNumber.Value).AddDays(dayDiff)
+    else
+        date
+
+printfn $"{(meetup 2022 6 Last DayOfWeek.Saturday)}"
