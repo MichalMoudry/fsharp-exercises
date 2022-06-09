@@ -16,16 +16,11 @@ let reverseList(languages: string list): string list =
     languages |> List.rev
 
 let excitingList (languages: string list): bool =
-    let listLength = countLanguages languages
-    if listLength = 4 && languages[1].Equals("F#") then
-        false
-    else
-        if listLength = 0 then
-            false
-        elif languages.Head.Equals("F#") || (listLength > 1 && languages[1].Equals("F#")) then
-            true
-        else
-            false
+    match languages with
+    | "F#" :: _
+    | [ _; "F#" ]
+    | [ _; "F#"; _ ] -> true
+    | _ -> false
 
 printfn $"{newList}"
 printfn $"{existingList}"
