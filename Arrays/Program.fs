@@ -30,3 +30,33 @@ printfn "%A" (incrementTodaysCount [| 3; 5; 7; 4; 1 |])
 printfn "%b" (oddWeek [| 5; 0; 5; 12; 5; 3; 5|])
 printfn "%b" (oddWeek [| 1; 0; 5; 0; 12; 0; 2 |])
 printfn "%b" (oddWeek [| 5; 0; 5; 12; 5; 3; 5|])
+
+let find (input: int array) (value: int) =
+    match input.Length with
+    | 0 -> None
+    | _ -> 
+        let pivotIndex = input.Length / 2
+        let pivot = input[pivotIndex]
+        if pivot = value then
+            Some(pivotIndex)
+        else
+            let firstHalf = input |> Array.take pivotIndex
+            if value < pivot then
+                firstHalf |> Array.tryFindIndex (fun i -> i = value)
+            else
+                let secondHalf = input |> Array.skip (pivotIndex + 1)
+                let indexOption = secondHalf |> Array.tryFindIndex (fun i -> i = value)
+                if indexOption.IsSome then
+                    Some(indexOption.Value + firstHalf.Length + 1)
+                else
+                    None
+                //Some(index)
+            //let secondHalf = input |> Array.skip (pivotIndex + 1)
+            //printfn "%A: %A - %A" input firstHalf secondHalf
+            //input |> Array.tryFindIndex (fun i -> i = value)
+
+let array = [|1; 3; 4; 6; 8; 9; 11;|]
+let value = 11
+
+let findResult = find array value
+printfn $"{findResult}"
