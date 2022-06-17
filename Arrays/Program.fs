@@ -50,13 +50,24 @@ let find (input: int array) (value: int) =
                     Some(indexOption.Value + firstHalf.Length + 1)
                 else
                     None
-                //Some(index)
-            //let secondHalf = input |> Array.skip (pivotIndex + 1)
-            //printfn "%A: %A - %A" input firstHalf secondHalf
-            //input |> Array.tryFindIndex (fun i -> i = value)
 
 let array = [|1; 3; 4; 6; 8; 9; 11;|]
 let value = 11
 
 let findResult = find array value
 printfn $"{findResult}"
+
+let keep pred xs =
+    xs |> Seq.where (pred)
+
+let discard pred xs =
+    let itemsToExclude = xs |> Seq.where (pred)
+    xs |> Seq.except (itemsToExclude)
+
+let keepResult1 = set [1; 2; 3] |> keep (fun x -> x < 10) |> Seq.toList
+let keepResult2 = [1; 2; 3; 4; 5] |> keep (fun x -> x % 2 = 0) |> Seq.toList
+printfn $"{keepResult1}"
+printfn $"{keepResult2}"
+
+let discardResult1 = [1; 2; 3; 4; 5] |> discard (fun x -> x % 2 = 0) |> Seq.toList
+printfn $"{discardResult1}"
