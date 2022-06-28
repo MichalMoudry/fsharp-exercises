@@ -54,3 +54,16 @@ let age (planet: Planet) (seconds: int64): float =
 
 printfn "Age: %f (expected -> 280.88)" (age Mercury 2134835688L)
 printfn "Age: %f (expected -> 31.69)" (age Earth 1000000000L)
+
+let score (x: double) (y: double): int =
+    let distance = sqrt(x * x + y * y)
+    if distance <= 1.0 then
+        10
+    elif distance <= 5.0 then
+        5
+    elif distance <= 10.0 then
+        1
+    else
+        0
+
+printfn "%i" (score -3.6 -3.6)
