@@ -31,32 +31,41 @@ type Week = First | Second | Third | Fourth | Last | Teenth
 
 let getWeekNumber (week: Week) =
     match week with
-        | First -> Some(0)
-        | Second -> Some(1)
-        | Third -> Some(2)
-        | Fourth -> Some(3)
-        | Last -> Some(4)
+        | First -> Some(1)
+        | Second -> Some(2)
+        | Third -> Some(3)
+        | Fourth -> Some(4)
+        | Last -> Some(5)
         | _ -> None
+
+(*
+        let weekNumber = getWeekNumber week
+        let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
+        let mutable calendar = CultureInfo.InvariantCulture.Calendar
+        if weekNumber.IsSome then
+            printfn $"{int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)} {dayOfWeek}"
+            let mutable diff = int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)
+            let mutable dayDiff = 0
+            while diff <> dayOfWeek do
+                if diff > dayOfWeek then
+                    diff <- diff - 1
+                    dayDiff <- dayDiff - 1
+                else
+                    diff <- diff + 1
+                    dayDiff <- dayDiff + 1
+            printfn $"{diff} {dayOfWeek} {dayDiff}"
+            calendar.AddWeeks(date, weekNumber.Value).AddDays(dayDiff)
+        else
+            date
+    *)
 
 let meetup year month week dayOfWeek: DateTime =
     let weekNumber = getWeekNumber week
-    let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
-    let mutable calendar = CultureInfo.InvariantCulture.Calendar
-    let dayNumber = int(dayOfWeek)
     if weekNumber.IsSome then
-        printfn $"{int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)} {dayNumber}"
-        let mutable diff = int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)
-        let mutable dayDiff = 0
-        while diff <> dayNumber do
-            if diff > dayNumber then
-                diff <- diff - 1
-                dayDiff <- dayDiff - 1
-            else
-                diff <- diff + 1
-                dayDiff <- dayDiff + 1
-        printfn $"{diff} {dayNumber} {dayDiff}"
-        calendar.AddWeeks(date, weekNumber.Value).AddDays(dayDiff)
+        let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
+        let mutable calendar = CultureInfo.InvariantCulture.Calendar
+        DateTime.Now
     else
-        date
-
-printfn $"{(meetup 2022 6 Last DayOfWeek.Saturday)}"
+        DateTime.Now
+        
+printfn $"{(meetup 2013 11 First DayOfWeek.Monday)}"
