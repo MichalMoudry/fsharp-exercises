@@ -9,26 +9,17 @@ printfn "%b" (leapYear 1996)
 printfn "%b" (leapYear 1900)
 printfn "%b" (leapYear 2000)
 
-open System.Text
-
 let create hours minutes : string =
-    let mutable hrs = hours
     let mutable mins = minutes
-    while hrs >= 24 do
-        hrs <- hrs - 24
-    if minutes >= 60 then
-        let numberOfHours = int(float(minutes) / 60.0)
-        hrs <- hrs + numberOfHours
-        mins <- mins - (numberOfHours * 60)
-    let hours_sb = new StringBuilder(2)
-    let minutes_sb = new StringBuilder(2)
-    if hrs < 10 && hrs >= 0 then
-        hours_sb.Append("0") |> ignore
-    if mins < 10 then
-        minutes_sb.Append(0) |> ignore
-    hours_sb.Append($"{hrs}") |> ignore
-    minutes_sb.Append($"{mins}") |> ignore
-    $"{hours_sb}:{minutes_sb}"
+    let minutesOverlap = minutes / 60
+    let mutable hrs = (minutesOverlap + hours) % 24
+    mins <- mins - (minutesOverlap * 60)
+    if mins < 0 then
+        mins <- 60 + mins
+        hrs <- hrs - 1
+    if hrs < 0 then
+        hrs <- 24 + hrs
+    sprintf "%02i:%02i" hrs mins
 
 let add (minutes: int) (clock: string) =
     let split = clock.Split(":")
@@ -48,9 +39,7 @@ let display (clock: string) =
 
 printfn "Create: %s" (create -1 15)
 printfn "Create: %s" (create 56 15)
-printfn "Add: %s" (add 3 "10:00")
-printfn "Add: %s" (add 157 "10:00")
-printfn "Display: %s" (display "16:151")
+printfn "Display: %s" (display "18:5")
 
 let steps (number: int): int option =
     if number > 0 then
