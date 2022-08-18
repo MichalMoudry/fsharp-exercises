@@ -4,6 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="TupleExercises.fs" />
+    <Compile Include="StringExercises.fs" />
+    <Compile Include="RecursionExercises.fs" />
+    <Compile Include="RecordsExercises.fs" />
+    <Compile Include="NumberExercises.fs" />
+    <Compile Include="ListExercises.fs" />
+    <Compile Include="DiscriminatedUnionsExercises.fs" />
+    <Compile Include="DateTimeExercises.fs" />
+    <Compile Include="ArrayExercises.fs" />
+    <Compile Include="IfThenElseExpressions.fs" />
+    <Compile Include="FloatingPointNumbers.fs" />
     <Compile Include="Raindrops.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
