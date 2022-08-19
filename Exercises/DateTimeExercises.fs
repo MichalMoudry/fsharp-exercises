@@ -1,5 +1,6 @@
 namespace Exercises
 
+open System
 open System.Globalization
 
 module DateTimeExercises =
@@ -44,34 +45,10 @@ module DateTimeExercises =
             | DayOfWeek.Sunday -> Some(6)
             | _ -> None
 
-    (*
-    let weekNumber = getWeekNumber week
-    let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
-    let mutable calendar = CultureInfo.InvariantCulture.Calendar
-    if weekNumber.IsSome then
-        printfn $"{int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)} {dayOfWeek}"
-        let mutable diff = int(calendar.AddWeeks(date, weekNumber.Value).DayOfWeek)
-        let mutable dayDiff = 0
-        while diff <> dayOfWeek do
-            if diff > dayOfWeek then
-                diff <- diff - 1
-                dayDiff <- dayDiff - 1
-            else
-                diff <- diff + 1
-                dayDiff <- dayDiff + 1
-        printfn $"{diff} {dayOfWeek} {dayDiff}"
-        calendar.AddWeeks(date, weekNumber.Value).AddDays(dayDiff)
-    else
-        date
-    *)  
-
     let meetup year month week (dayOfWeek: DayOfWeek): DateTime =
         let weekNumber = getWeekNumber week
         if weekNumber.IsSome then
-            let date = DateTime().AddYears(year - 1).AddMonths(month - 1)
-            let calendar = CultureInfo.InvariantCulture.Calendar
-            calendar.AddWeeks(date, weekNumber.Value).AddDays((getDayNumber dayOfWeek).Value)
+            let dateWithMonths = DateTime().AddYears(year - 1).AddMonths(month - 1).AddDays(float(7 * weekNumber.Value))
+            dateWithMonths
         else
             DateTime.Now
-            
-    //printfn $"{(meetup 2022 8 Last DayOfWeek.Friday)}"
