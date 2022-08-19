@@ -1,7 +1,6 @@
 namespace Exercises
 
 open System
-open System.Globalization
 
 module DateTimeExercises =
     let schedule (appointmentDateDescription: string): DateTime =
@@ -48,7 +47,11 @@ module DateTimeExercises =
     let meetup year month week (dayOfWeek: DayOfWeek): DateTime =
         let weekNumber = getWeekNumber week
         if weekNumber.IsSome then
-            let dateWithMonths = DateTime().AddYears(year - 1).AddMonths(month - 1).AddDays(float(7 * weekNumber.Value))
+            let dayNumber = getDayNumber dayOfWeek
+            let mutable dateWithMonths = DateTime().AddYears(year - 1).AddMonths(month - 1).AddDays(float(7 * weekNumber.Value))
+            let initDayNumber = getDayNumber dateWithMonths.DayOfWeek
+            dateWithMonths <- dateWithMonths.AddDays(-initDayNumber.Value);
+            printfn $"Day of the week: {dateWithMonths.DayOfWeek}"
             dateWithMonths
         else
             DateTime.Now
