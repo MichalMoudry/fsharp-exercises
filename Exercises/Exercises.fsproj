@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="RobotSimulator.fs" />
     <Compile Include="TupleExercises.fs" />
     <Compile Include="StringExercises.fs" />
     <Compile Include="RecursionExercises.fs" />
