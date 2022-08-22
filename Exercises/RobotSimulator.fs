@@ -4,9 +4,10 @@ module RobotSimulator =
     type Direction = North | East | South | West
     type Position = int * int
     type Robot =
-        { direction: Direction; position: Position }
+        { mutable direction: Direction; mutable position: Position }
         member this.updateDirection(dir: Direction) =
-            { direction = dir; position = this.position }
+            this.direction <- dir
+            this
     type Movement = TurnRight | TurnLeft | Advance
 
     let create direction position =
@@ -17,30 +18,42 @@ module RobotSimulator =
             | 'R' -> TurnRight
             | 'L' -> TurnLeft
             | _ -> Advance
-    
-    let handleTurnRight (robot: Robot) (origDirection: Direction) =
+
+    let handleTurnRight (robot: Robot) =
         let newDirection =
-            match origDirection with
+            match robot.direction with
                 | North -> East
                 | East -> South
                 | South -> West
                 | _ -> North
         robot.updateDirection(newDirection)
-    
-    let handleTurnLeft (robot: Robot) (origDirection: Direction) =
+
+    let handleTurnLeft (robot: Robot) =
         let newDirection =
-            match origDirection with
+            match robot.direction with
                 | North -> West
+                | West -> South
+                | South -> East
                 | _ -> North
         robot.updateDirection(newDirection)
-    
+
+    let handleAdvance (robot: Robot) =
+        let x = fst robot.position
+        let y = snd robot.position
+        robot.position <-
+            match robot.direction with
+                | North -> (x, y + 1)
+                | East -> (x + 1, y)
+                | South -> (x, y - 1)
+                | _ -> (x - 1, y)
+        robot
+
     let executeInstructions (robot: Robot) (instruction: char) =
         let movement = matchInstruction instruction
         match movement with
-            | Advance -> robot
-            | TurnRight -> handleTurnRight robot robot.direction
-            | TurnLeft -> handleTurnLeft robot robot.direction
+            | Advance -> handleAdvance robot
+            | TurnRight -> handleTurnRight robot
+            | TurnLeft -> handleTurnLeft robot
 
     let move (instructions: string) (robot: Robot) =
-        let robotHistory = instructions |> Seq.map (fun i -> executeInstructions robot i)
-        robotHistory |> Seq.last
+        instructions |> Seq.fold executeInstructions robot

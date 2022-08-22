@@ -12,6 +12,6 @@ module Program =
         printfn $"{meetup_result}"
         printfn $"{meetup_result2}"*)
         let robot = RobotSimulator.create RobotSimulator.North (7, 3)
-        let newPosition = RobotSimulator.move "RAALAL" robot
-        printfn $"{newPosition.position}"
+        let newPosition = RobotSimulator.move "A" robot
+        printfn $"{newPosition.direction} | {newPosition.position}"
         0
