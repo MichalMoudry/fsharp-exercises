@@ -47,17 +47,12 @@ module DateTimeExercises =
     let meetup year month week (dayOfWeek: DayOfWeek): DateTime =
         let weekNumber = getWeekNumber week
         if weekNumber.IsSome then
-            (*let dayNumber = getDayNumber dayOfWeek
-            let mutable dateWithMonths = DateTime().AddYears(year - 1).AddMonths(month - 1).AddDays(float(7 * weekNumber.Value))
-            let initDayNumber = getDayNumber dateWithMonths.DayOfWeek
-            dateWithMonths <- dateWithMonths.AddDays(-initDayNumber.Value);
-            printfn $"Day of the week: {dateWithMonths.DayOfWeek} | {dayNumber.Value}"*)
             let mutable initDate = DateTime().AddYears(year - 1).AddMonths(month - 1)
             let initDayNumber = (getDayNumber initDate.DayOfWeek).Value
-            initDate <- initDate.AddDays(-initDayNumber)
+            let inputDayNumber = (getDayNumber dayOfWeek).Value
+            initDate <- initDate.AddDays(-initDayNumber).AddDays(inputDayNumber) // Set to monday + add input days
             let isMonday = initDate.DayOfWeek = DayOfWeek.Monday
-            //let isFirstWeekOverlap = not(isMonday) // && dayOfWeek < initDate.DayOfWeek
-            printfn $"Is monday: {isMonday} | {initDate.DayOfWeek} | {not(isMonday)}"
+            //printfn $"Is monday: {isMonday} | {initDate.DayOfWeek}"
             initDate
         else
             DateTime.Now
