@@ -1,24 +1,28 @@
-namespace Exercises
+module RecursionExercises 
 
-module RecursionExercises =
-    type Pizza =
-        | Margherita
-        | Caprese
-        | Formaggio
-        | ExtraSauce of Pizza
-        | ExtraToppings of Pizza
+type Pizza =
+    | Margherita
+    | Caprese
+    | Formaggio
+    | ExtraSauce of Pizza
+    | ExtraToppings of Pizza
 
-    let rec pizzaPrice (pizza: Pizza): int =
-        match pizza with
-        | Margherita -> 7
-        | Caprese -> 9
-        | Formaggio -> 10
-        | ExtraSauce(pizza) -> pizzaPrice(pizza) + 1
-        | ExtraToppings(pizza) -> pizzaPrice(pizza) + 2
+let rec pizzaPrice (pizza: Pizza): int =
+    match pizza with
+    | Margherita -> 7
+    | Caprese -> 9
+    | Formaggio -> 10
+    | ExtraSauce(pizza) -> pizzaPrice(pizza) + 1
+    | ExtraToppings(pizza) -> pizzaPrice(pizza) + 2
 
-    let orderPrice(pizzas: Pizza list): int =
-        let sum = pizzas |> List.map (fun i -> pizzaPrice(i)) |> List.sum
-        match List.length (pizzas) with
-        | 1 -> sum + 3
-        | 2 -> sum + 2
-        | _ -> sum
+let orderPrice(pizzas: Pizza list): int =
+    let sum = pizzas |> List.map (fun i -> pizzaPrice(i)) |> List.sum
+    match List.length (pizzas) with
+    | 1 -> sum + 3
+    | 2 -> sum + 2
+    | _ -> sum
+
+let accumulate (func: 'a -> 'b) (input: 'a list): 'b list =
+    for item in input do
+        printfn "%A" (func item)
+    input |> List.iter (fun i -> (func ))
